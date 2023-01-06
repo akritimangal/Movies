@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/signup_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -12,6 +15,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   bool _rememberme = false;
   bool changeButton = false;
+  late String _emailAddress;
+  late String _password;
 
   moveTohome(BuildContext context) async {
     //async to be entered when we are having awaitng things
@@ -29,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,44 +127,87 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                     ),
-                    Material(
-                      color: Colors.green[900],
-                      borderRadius:
-                          BorderRadius.circular(changeButton ? 50 : 8),
-                      child: InkWell(
-                        //used to is to get button like features on container instead of justdetector..
-                        onTap: () => moveTohome(context),
-                        child: AnimatedContainer(
-                          //animated container to implement animation instead of simple container
-                          duration: Duration(seconds: 2),
-                          height: 40,
-                          width: changeButton ? 50 : 120,
-                          //if changeButton true then make width 50 else 150
-                          alignment: Alignment.center,
-                          // ignore: sort_child_properties_last
-                          child: changeButton
-                              ? Icon(Icons.done, color: Colors.white)
-                              //if changeButton true then show done icon else text
-                              : Text(
-                                  "Login",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 17),
-                                ),
-                        ),
+
+                    ElevatedButton(
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
+                          try {
+                            final credential = await FirebaseAuth.instance
+                                .signInWithEmailAndPassword(
+                                    email: _emailAddress, password: _password);
+                          } on FirebaseAuthException catch (e) {
+                            if (e.code == 'user-not-found') {
+                              print('No user found for that email.');
+                            } else if (e.code == 'wrong-password') {
+                              print('Wrong password provided for that user.');
+                            }
+                            moveTohome(context);
+                          }
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.green[900],
+                        elevation: 15.0,
+                      ),
+                      child: AnimatedContainer(
+                        //animated container to implement animation instead of simple container
+                        duration: Duration(seconds: 2),
+                        height: 40,
+                        width: changeButton ? 50 : 120,
+                        //if changeButton true then make width 50 else 150
+                        alignment: Alignment.center,
+                        // ignore: sort_child_properties_last
+                        child: changeButton
+                            ? Icon(Icons.done, color: Colors.white)
+                            //if changeButton true then show done icon else text
+                            : Text(
+                                "LOGIN",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 17),
+                              ),
                       ),
                     ),
+
+                    //------------------------------------------------------------------
+                    // Material(
+                    //   color: Colors.green[900],
+                    //   borderRadius:
+                    //       BorderRadius.circular(changeButton ? 50 : 8),
+                    //   child: InkWell(
+                    //     //used to is to get button like features on container instead of justdetector..
+                    //     onTap: () => moveTohome(context),
+                    //     child: AnimatedContainer(
+                    //       //animated container to implement animation instead of simple container
+                    //       duration: Duration(seconds: 2),
+                    //       height: 40,
+                    //       width: changeButton ? 50 : 120,
+                    //       //if changeButton true then make width 50 else 150
+                    //       alignment: Alignment.center,
+                    //       // ignore: sort_child_properties_last
+                    //       child: changeButton
+                    //           ? Icon(Icons.done, color: Colors.white)
+                    //           //if changeButton true then show done icon else text
+                    //           : Text(
+                    //               "Login",
+                    //               style: TextStyle(
+                    //                   color: Colors.white,
+                    //                   fontWeight: FontWeight.bold,
+                    //                   fontSize: 17),
+                    //             ),
+                    //     ),
+                    //   ),
+                    // ),
                     GestureDetector(
                       onTap: () => SignUpScreen(),
-
                       child: Text(
                         "First time here? Sign Up",
                         style: TextStyle(
                           color: Colors.green[900],
                           fontWeight: FontWeight.bold,
                           fontSize: 20.0,
-
                         ),
                       ),
                     ),
@@ -167,7 +216,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
-        )
-    );
+        ));
   }
 }

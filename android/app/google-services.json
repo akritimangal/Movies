@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "236676609411",
+    "project_id": "loyal-rampart-345111",
+    "storage_bucket": "loyal-rampart-345111.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236676609411:android:1c130818a095b8440e32b6",
+        "android_client_info": {
+          "package_name": "com.example.movies_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "236676609411-4qa74d6kjjmscj6eh74c6gfhhcaoo7fs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZSIzcE8lHxmJyCsnVhZs5smoSnq4d5oE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "236676609411-4qa74d6kjjmscj6eh74c6gfhhcaoo7fs.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "236676609411-p1atr8i4e5gk16aah7qe0m6egg6p5rda.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.moviesApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

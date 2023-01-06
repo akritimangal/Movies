@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:movies_app/home_page.dart';
 import 'package:movies_app/login_page.dart';
-// import 'package:movies_app/routes.dart';
 import 'package:movies_app/signup_page.dart';
 import 'package:movies_app/widgets/themes.dart';
-// import 'pages/home_page.dart';
-// import 'package:flutter_catalogue/utils/routes.dart';
-// import 'login_page.dart';
-
-void main() {
-  runApp(MyApp());
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp( MyApp());
 }
+
+// void main(){
+//   runApp(MyApp());
+// }
 
 class MyApp extends StatelessWidget {
   // const MyApp({Key? key}) : super(key: key);
